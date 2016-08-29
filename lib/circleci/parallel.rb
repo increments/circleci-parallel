@@ -1,4 +1,4 @@
-require "circleci/parallel/version"
+require 'circleci/parallel/version'
 
 module Circleci
   module Parallel
