@@ -68,7 +68,7 @@ RSpec.configure do |config|
 
   # This setting enables warnings. It's recommended, but in some cases may
   # be too noisy due to issues in dependencies.
-  config.warnings = true
+  # config.warnings = true
 
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
@@ -96,4 +96,13 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+end
+
+RSpec.configure do |config|
+  config.before do
+    CircleCI::Parallel.reset!
+    CircleCI::Parallel.configuration.silent = true
+    allow(Kernel).to receive(:sleep)
+    allow(Kernel).to receive(:system).and_return(true)
+  end
 end
