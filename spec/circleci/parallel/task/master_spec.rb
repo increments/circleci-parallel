@@ -22,6 +22,11 @@ module CircleCI::Parallel
       Configuration.new
     end
 
+    before do
+      allow(Kernel).to receive(:sleep)
+      allow(Kernel).to receive(:system).and_return(true)
+    end
+
     it 'creates join marker file' do
       expect { task.run }
         .to change { File.exist?('/tmp/circleci-parallel/JOINING') }.from(false).to(true)

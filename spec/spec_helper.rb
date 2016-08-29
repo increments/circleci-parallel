@@ -102,7 +102,7 @@ RSpec.configure do |config|
   config.before do
     CircleCI::Parallel.reset!
     CircleCI::Parallel.configuration.silent = true
-    allow(Kernel).to receive(:sleep)
-    allow(Kernel).to receive(:system).and_return(true)
   end
 end
+
+RSpec::Matchers.define_negated_matcher :not_change, :change

@@ -22,6 +22,11 @@ module CircleCI::Parallel
       Configuration.new
     end
 
+    before do
+      allow(Kernel).to receive(:sleep)
+      allow(Kernel).to receive(:system).and_return(true)
+    end
+
     it 'creates join marker file' do
       allow(task).to receive(:downloaded?).and_return(true)
       expect { task.run }
