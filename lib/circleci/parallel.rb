@@ -1,6 +1,6 @@
 require 'circleci/parallel/version'
 
-module Circleci
+module CircleCI
   module Parallel
     # Your code goes here...
   end

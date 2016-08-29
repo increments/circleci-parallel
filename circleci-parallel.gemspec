@@ -5,7 +5,7 @@ require 'circleci/parallel/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'circleci-parallel'
-  spec.version       = Circleci::Parallel::VERSION
+  spec.version       = CircleCI::Parallel::VERSION
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
 
