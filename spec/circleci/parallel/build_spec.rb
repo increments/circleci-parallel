@@ -1,5 +1,3 @@
-require 'circleci/parallel/build'
-
 module CircleCI::Parallel
   RSpec.describe Build do
     subject(:build) do

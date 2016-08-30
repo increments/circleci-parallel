@@ -1,6 +1,3 @@
-require 'circleci/parallel/node'
-require 'circleci/parallel/build'
-
 module CircleCI::Parallel
   RSpec.describe Node do
     subject(:node) do

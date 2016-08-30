@@ -1,5 +1,3 @@
-require 'circleci/parallel'
-
 module CircleCI
   RSpec.describe Parallel do
     around do |example|

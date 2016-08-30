@@ -1,9 +1,3 @@
-require 'circleci/parallel/task/mock_slave'
-require 'circleci/parallel'
-require 'circleci/parallel/build'
-require 'circleci/parallel/configuration'
-require 'circleci/parallel/node'
-
 module CircleCI::Parallel
   RSpec.describe Task::MockSlave do
     subject(:task) do

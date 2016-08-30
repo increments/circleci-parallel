@@ -1,9 +1,3 @@
-require 'circleci/parallel/task/master'
-require 'circleci/parallel'
-require 'circleci/parallel/build'
-require 'circleci/parallel/configuration'
-require 'circleci/parallel/node'
-
 module CircleCI::Parallel
   RSpec.describe Task::Master do
     subject(:task) do
