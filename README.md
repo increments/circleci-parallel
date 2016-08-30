@@ -1,8 +1,7 @@
 # CircleCI::Parallel
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/circleci/parallel`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+**CircleCI::Parallel** provides simple APIs for joining [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
+and sharing files between the nodes.
 
 ## Installation
 
@@ -14,28 +13,74 @@ gem 'circleci-parallel'
 
 And then execute:
 
-    $ bundle
+```
+$ bundle install
+```
 
-Or install it yourself as:
+## Basic Usage
 
-    $ gem install circleci-parallel
+Before using CircleCI::Parallel:
 
-## Usage
+* [Add `parallel: true`](https://circleci.com/docs/parallel-manual-setup/)
+  to the command that you'll use CircleCI::Parallel in your `circle.yml`.
+* [Set up parallelism](https://circleci.com/docs/setting-up-parallelism/)
+  for your project from the CircleCI web console.
 
-TODO: Write usage instructions here
+CircleCI::Parallel uses SSH for joining and transferring data between nodes.
 
-## Development
+```yaml
+# circle.yml
+test:
+  override:
+    - ruby test.rb:
+        parallel: true
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+# test.rb
+require 'circleci/parallel'
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+merged_data = {}
 
-## Contributing
+CircleCI::Parallel.configure do |config|
+  # This hook will be invoked on all the nodes.
+  # The current working directory in this hook is set to the local data directory
+  # where node specific data should be saved in.
+  config.before_join do
+    data = do_something
+    json = JSON.generate(data)
+    File.write('data.json', json)
+  end
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/circleci-parallel.
+  # This hook will be invoked only on the master node after downloading all data from slave nodes.
+  # The current working directory in this hook is set to the download data directory
+  # where all node data are gathered into.
+  # The directory structure on the master node will be the following:
+  #
+  #     .
+  #     ├── node0
+  #     │   └── node_specific_data_you_saved_on_node0.txt
+  #     ├── node1
+  #     │   └── node_specific_data_you_saved_on_node1.txt
+  #     └── node2
+  #         └── node_specific_data_you_saved_on_node2.txt
+  config.after_download do
+    Dir.glob('*/data.json') do |path|
+      json = File.read(path)
+      data = JSON.parse(json)
+      node_name = File.dirname(path)
+      merged_data[node_name] = data
+    end
+  end
+end
 
+# Join all nodes in the same build and gather all node data into the master node.
+# Invoking this method blocks until the join and data downloads are complete.
+CircleCI::Parallel.join
+
+p merged_data
+```
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
