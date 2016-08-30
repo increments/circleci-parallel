@@ -5,7 +5,7 @@ Metrics/AbcSize:
   Max: 16
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 Style/ClassAndModuleChildren:
   Exclude:

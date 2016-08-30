@@ -50,7 +50,7 @@ module CircleCI::Parallel
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)
-        .with('scp', '-r', 'node2:/tmp/circleci-parallel/data/node2', '/tmp/circleci-parallel/data')
+        .with('scp', '-q', '-r', 'node2:/tmp/circleci-parallel/data/node2', '/tmp/circleci-parallel/data')
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)
@@ -62,7 +62,7 @@ module CircleCI::Parallel
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)
-        .with('scp', '-r', 'node1:/tmp/circleci-parallel/data/node1', '/tmp/circleci-parallel/data')
+        .with('scp', '-q', '-r', 'node1:/tmp/circleci-parallel/data/node1', '/tmp/circleci-parallel/data')
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)

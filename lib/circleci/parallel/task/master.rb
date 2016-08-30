@@ -43,7 +43,7 @@ module CircleCI
           end
 
           def scp
-            Kernel.system('scp', '-r', "#{node.ssh_host}:#{node.data_dir}", BASE_DATA_DIR)
+            Kernel.system('scp', '-q', '-r', "#{node.ssh_host}:#{node.data_dir}", BASE_DATA_DIR)
           end
 
           def downloaded?
