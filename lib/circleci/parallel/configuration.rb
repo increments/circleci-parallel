@@ -6,11 +6,15 @@ module CircleCI
       # @return [Boolean] whether progress messages should be outputted to STDOUT (default: false)
       attr_accessor :silent
 
+      # @return [Boolean] whether mock mode is enabled (default: false)
+      attr_accessor :mock_mode
+
       # @api private
       attr_reader :before_join_hook, :after_join_hook, :after_download_hook
 
       def initialize
         @silent = false
+        @mock_mode = false
         @before_join_hook = @after_join_hook = @after_download_hook = Hook.new
       end
 

@@ -4,6 +4,8 @@ require 'circleci/parallel/configuration'
 require 'circleci/parallel/node'
 require 'circleci/parallel/task/master'
 require 'circleci/parallel/task/slave'
+require 'circleci/parallel/task/mock_master'
+require 'circleci/parallel/task/mock_slave'
 
 module CircleCI
   module Parallel
@@ -51,9 +53,14 @@ module CircleCI
       end
 
       def task
-        @task ||= begin
-          task_class = current_node.master? ? Task::Master : Task::Slave
-          task_class.new(current_node, configuration)
+        @task ||= task_class.new(current_node, configuration)
+      end
+
+      def task_class
+        if configuration.mock_mode
+          current_node.master? ? Task::MockMaster : Task::MockSlave
+        else
+          current_node.master? ? Task::Master : Task::Slave
         end
       end
     end

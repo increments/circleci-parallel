@@ -56,35 +56,59 @@ module CircleCI
     end
 
     describe '.join' do
-      context 'when CIRCLE_NODE_INDEX is 0' do
-        before do
-          ENV['CIRCLE_NODE_INDEX'] = '0'
-        end
-
+      shared_examples 'runs a task' do |task_class|
         let(:task) do
-          instance_double(Parallel::Task::Master)
+          instance_double(task_class)
         end
 
-        it 'runs a Task::Master' do
-          expect(Parallel::Task::Master).to receive(:new).and_return(task)
+        it "runs a #{task_class}" do
+          expect(task_class).to receive(:new).and_return(task)
           expect(task).to receive(:run)
           Parallel.join
         end
       end
 
-      context 'when CIRCLE_NODE_INDEX is other than 0' do
+      context 'when Configuration#mock_mode is true' do
         before do
-          ENV['CIRCLE_NODE_INDEX'] = '1'
+          Parallel.configuration.mock_mode = true
         end
 
-        let(:task) do
-          instance_double(Parallel::Task::Slave)
+        context 'and CIRCLE_NODE_INDEX is 0' do
+          before do
+            ENV['CIRCLE_NODE_INDEX'] = '0'
+          end
+
+          include_examples 'runs a task', Parallel::Task::MockMaster
         end
 
-        it 'runs a Task::Slave' do
-          expect(Parallel::Task::Slave).to receive(:new).and_return(task)
-          expect(task).to receive(:run)
-          Parallel.join
+        context 'and CIRCLE_NODE_INDEX is other than 0' do
+          before do
+            ENV['CIRCLE_NODE_INDEX'] = '1'
+          end
+
+          include_examples 'runs a task', Parallel::Task::MockSlave
+        end
+      end
+
+      context 'when Configuration#mock_mode is false' do
+        before do
+          Parallel.configuration.mock_mode = false
+        end
+
+        context 'and CIRCLE_NODE_INDEX is 0' do
+          before do
+            ENV['CIRCLE_NODE_INDEX'] = '0'
+          end
+
+          include_examples 'runs a task', Parallel::Task::Master
+        end
+
+        context 'and CIRCLE_NODE_INDEX is other than 0' do
+          before do
+            ENV['CIRCLE_NODE_INDEX'] = '1'
+          end
+
+          include_examples 'runs a task', Parallel::Task::Slave
         end
       end
     end
