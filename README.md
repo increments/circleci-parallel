@@ -23,7 +23,7 @@ And then execute:
 $ bundle install
 ```
 
-## Basic Usage
+## Usage
 
 Before using CircleCI::Parallel:
 
@@ -86,6 +86,8 @@ CircleCI::Parallel.join
 
 p merged_data
 ```
+
+See [API docs](http://www.rubydoc.info/gems/circleci-parallel) for more details.
 
 ## License
 
