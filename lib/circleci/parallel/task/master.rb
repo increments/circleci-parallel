@@ -3,6 +3,7 @@ require 'circleci/parallel/task/base'
 module CircleCI
   module Parallel
     module Task
+      # @api private
       class Master < Base
         def run
           create_node_data_dir

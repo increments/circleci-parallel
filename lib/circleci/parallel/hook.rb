@@ -1,5 +1,6 @@
 module CircleCI
   module Parallel
+    # @api private
     class Hook
       attr_reader :proc, :chdir
 

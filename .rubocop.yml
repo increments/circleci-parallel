@@ -7,6 +7,10 @@ Metrics/AbcSize:
 Metrics/LineLength:
   Max: 120
 
+Style/AsciiComments:
+  Exclude:
+    - lib/circleci/parallel.rb
+
 Style/ClassAndModuleChildren:
   Exclude:
     - spec/**/*

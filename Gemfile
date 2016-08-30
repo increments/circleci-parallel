@@ -7,4 +7,5 @@ group :development, :test do
   gem 'rake', '~> 11.0'
   gem 'rspec', '~> 3.5'
   gem 'rubocop', '~> 0.42'
+  gem 'yard', '~> 0.9'
 end

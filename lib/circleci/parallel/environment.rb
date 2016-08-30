@@ -7,6 +7,7 @@ require 'circleci/parallel/task/slave'
 
 module CircleCI
   module Parallel
+    # @api private
     class Environment
       def configuration
         @configuration ||= Configuration.new
@@ -29,16 +30,6 @@ module CircleCI
         task.run
       end
 
-      def validate!
-        raise 'The current environment is not on CircleCI.' unless ENV['CIRCLECI']
-
-        unless ENV['CIRCLE_NODE_TOTAL']
-          warn 'Environment variable CIRCLE_NODE_TOTAL is not set. ' \
-               'Maybe you forgot adding `parallel: true` to your circle.yml? ' \
-               'https://circleci.com/docs/parallel-manual-setup/'
-        end
-      end
-
       def puts(*args)
         Kernel.puts(*args) unless configuration.silent
       end
@@ -48,6 +39,16 @@ module CircleCI
       end
 
       private
+
+      def validate!
+        raise 'The current environment is not on CircleCI.' unless ENV['CIRCLECI']
+
+        unless ENV['CIRCLE_NODE_TOTAL']
+          warn 'Environment variable CIRCLE_NODE_TOTAL is not set. ' \
+               'Maybe you forgot adding `parallel: true` to your circle.yml? ' \
+               'https://circleci.com/docs/parallel-manual-setup/'
+        end
+      end
 
       def task
         @task ||= begin

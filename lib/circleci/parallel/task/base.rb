@@ -3,6 +3,7 @@ require 'fileutils'
 module CircleCI
   module Parallel
     module Task
+      # @api private
       class Base
         attr_reader :node, :configuration
 
