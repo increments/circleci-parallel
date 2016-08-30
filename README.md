@@ -1,3 +1,8 @@
+[![Gem Version](http://img.shields.io/gem/v/circleci-parallel.svg?style=flat)](http://badge.fury.io/rb/circleci-parallel)
+[![Dependency Status](http://img.shields.io/gemnasium/increments/circleci-parallel.svg?style=flat)](https://gemnasium.com/increments/circleci-parallel)
+[![CircleCI](https://circleci.com/gh/increments/circleci-parallel.svg?style=shield)](https://circleci.com/gh/increments/circleci-parallel)
+[![Code Climate](https://img.shields.io/codeclimate/github/increments/circleci-parallel.svg?style=flat)](https://codeclimate.com/github/increments/circleci-parallel)
+
 # CircleCI::Parallel
 
 **CircleCI::Parallel** provides simple APIs for joining [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
