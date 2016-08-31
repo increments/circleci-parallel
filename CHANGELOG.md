@@ -2,6 +2,8 @@
 
 ## Development
 
+* Print "Done." when join is complete.
+
 ## v0.3.0
 
 * Add `Node#name`.

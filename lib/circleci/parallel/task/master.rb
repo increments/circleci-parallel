@@ -12,6 +12,7 @@ module CircleCI
           download_from_slave_nodes
           configuration.after_download_hook.call(BASE_DATA_DIR)
           configuration.after_join_hook.call(node.data_dir)
+          done
         end
 
         private

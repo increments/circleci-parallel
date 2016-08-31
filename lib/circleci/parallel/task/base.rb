@@ -26,6 +26,10 @@ module CircleCI
           Parallel.puts('Joining CircleCI nodes...')
           File.write(JOIN_MARKER_FILE, '')
         end
+
+        def done
+          Parallel.puts('Done.')
+        end
       end
     end
   end

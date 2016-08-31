@@ -11,6 +11,7 @@ module CircleCI
           mark_as_joining
           wait_for_master_node_to_download
           configuration.after_join_hook.call(node.data_dir)
+          done
         end
 
         private
