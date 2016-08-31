@@ -46,8 +46,6 @@ test:
 # test.rb
 require 'circleci/parallel'
 
-merged_data = {}
-
 CircleCI::Parallel.configure do |config|
   # This hook will be invoked on all the nodes.
   # The current working directory in this hook is set to the local data directory
@@ -71,20 +69,22 @@ CircleCI::Parallel.configure do |config|
   #     └── node2
   #         └── node_specific_data_you_saved_on_node2.txt
   config.after_download do
+    merged_data = {}
+
     Dir.glob('*/data.json') do |path|
       json = File.read(path)
       data = JSON.parse(json)
       node_name = File.dirname(path)
       merged_data[node_name] = data
     end
+
+    p merged_data
   end
 end
 
 # Join all nodes in the same build and gather all node data into the master node.
 # Invoking this method blocks until the join and data downloads are complete.
 CircleCI::Parallel.join
-
-p merged_data
 ```
 
 See [API docs](http://www.rubydoc.info/gems/circleci-parallel) for more details.
