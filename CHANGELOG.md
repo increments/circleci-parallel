@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.4.1
+
 * Tweak UI messsages.
 
 ## v0.4.0
