@@ -2,6 +2,8 @@
 
 ## Development
 
+* Tweak UI messsages.
+
 ## v0.4.0
 
 * Print "Done." when join is complete.

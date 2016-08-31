@@ -6,8 +6,8 @@
 
 # CircleCI::Parallel
 
-**CircleCI::Parallel** provides simple APIs for joining [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
-and sharing files between the nodes.
+**CircleCI::Parallel** provides simple APIs for syncing [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
+and transferring files between the nodes.
 
 ## Installation
 
@@ -32,7 +32,7 @@ Before using CircleCI::Parallel:
 * [Set up parallelism](https://circleci.com/docs/setting-up-parallelism/)
   for your project from the CircleCI web console.
 
-CircleCI::Parallel uses SSH for joining and transferring data between nodes.
+CircleCI::Parallel uses SSH for syncing nodes and transferring data between nodes.
 
 ```yaml
 # circle.yml
@@ -82,7 +82,7 @@ CircleCI::Parallel.configure do |config|
   end
 end
 
-# Join all nodes in the same build and gather all node data into the master node.
+# Sync all nodes in the same build and gather all node data into the master node.
 # Invoking this method blocks until the join and data downloads are complete.
 CircleCI::Parallel.join
 ```
