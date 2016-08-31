@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.3.0
+
 * Add `Node#name`.
 
 ## v0.2.0
