@@ -32,6 +32,8 @@ module CircleCI
         "node#{index}"
       end
 
+      alias name ssh_host
+
       # @return [String] the local data directory where node specific data should be saved in
       #
       # @see CircleCI::Parallel.local_data_dir
