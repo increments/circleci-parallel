@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.4.0
+
 * Print "Done." when join is complete.
 
 ## v0.3.0
