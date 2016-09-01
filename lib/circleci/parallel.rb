@@ -90,7 +90,7 @@ module CircleCI
     #
     # Returns the current CircleCI node.
     #
-    # @return [Build] the current node
+    # @return [Node] the current node
     #
     # @see .current_build
     def_delegator :environment, :current_node
