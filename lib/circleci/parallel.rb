@@ -3,8 +3,8 @@ require 'forwardable'
 require 'circleci/parallel/environment'
 
 module CircleCI
-  # Provides simple APIs for joining CircleCI's parallel builds and sharing files between the
-  # builds.
+  # Provides simple APIs for syncing CircleCI parallel nodes and transferring files between the
+  # nodes.
   #
   # @example
   #   merged_data = {}

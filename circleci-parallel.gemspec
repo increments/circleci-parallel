@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
 
-  spec.summary       = "Provides Ruby APIs for joining CircleCI's parallel builds " \
-                       'and sharing files between the builds'
+  spec.summary       = 'Provides Ruby APIs for syncing CircleCI parallel nodes ' \
+                       'and transferring files between the nodes'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/increments/circleci-parallel'
   spec.license       = 'MIT'

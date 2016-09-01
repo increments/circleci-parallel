@@ -83,7 +83,7 @@ CircleCI::Parallel.configure do |config|
 end
 
 # Sync all nodes in the same build and gather all node data into the master node.
-# Invoking this method blocks until the join and data downloads are complete.
+# Invoking this method blocks until the join and the data transfer is complete.
 CircleCI::Parallel.join
 ```
 

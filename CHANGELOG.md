@@ -8,7 +8,7 @@
 
 ## v0.4.0
 
-* Print "Done." when join is complete.
+* Print "Done." when sync is complete.
 
 ## v0.3.0
 
