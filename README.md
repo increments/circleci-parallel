@@ -6,7 +6,7 @@
 
 # CircleCI::Parallel
 
-**CircleCI::Parallel** provides simple APIs for syncing [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
+**CircleCI::Parallel** provides simple Ruby APIs for syncing [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
 and transferring files between the nodes.
 
 ## Installation
