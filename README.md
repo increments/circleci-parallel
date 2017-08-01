@@ -6,8 +6,7 @@
 
 # CircleCI::Parallel
 
-**CircleCI::Parallel** provides simple Ruby APIs for syncing [CircleCI parallel nodes](https://circleci.com/docs/parallelism/)
-and transferring files between the nodes.
+**CircleCI::Parallel** provides simple Ruby APIs for syncing [CircleCI parallel nodes](https://circleci.com/docs/parallelism/) and transferring all node data to a single master node.
 
 ## Installation
 
@@ -33,6 +32,7 @@ Before using CircleCI::Parallel:
   for your project from the CircleCI web console.
 
 CircleCI::Parallel uses SSH for syncing nodes and transferring data between nodes.
+All data will be transferred to the master node (where [`CIRCLE_NODE_INDEX`](https://circleci.com/docs/1.0/parallel-manual-setup/#using-environment-variables) is `0`).
 
 ```yaml
 # circle.yml
@@ -51,7 +51,7 @@ CircleCI::Parallel.configure do |config|
   # The current working directory in this hook is set to the local data directory
   # where node specific data should be saved in.
   config.on_every_node.before_sync do
-    data = do_something
+    data = { 'foo' => ENV['CIRCLE_NODE_INDEX'].to_i * 10 }
     json = JSON.generate(data)
     File.write('data.json', json)
   end
@@ -79,6 +79,11 @@ CircleCI::Parallel.configure do |config|
     end
 
     p merged_data
+    # {
+    #   "node0" => { "foo" => 0 },
+    #   "node1" => { "foo" => 10 },
+    #   "node2" => { "foo" => 20 }
+    # }
   end
 end
 
