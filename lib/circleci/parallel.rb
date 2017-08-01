@@ -59,7 +59,7 @@ module CircleCI
     #
     # @!scope class
     #
-    # Provides a block for configuring RSpec::ComposableJSONMatchers.
+    # Provides a block for configuring CircleCI::Parallel.
     #
     # @yieldparam config [Configuration] the current configuration
     #
