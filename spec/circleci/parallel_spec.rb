@@ -53,7 +53,7 @@ module CircleCI
       it { should eq('/tmp/circleci-parallel/data') }
     end
 
-    describe '.join' do
+    describe '.sync' do
       shared_examples 'runs a task' do |task_class|
         let(:task) do
           instance_double(task_class)
@@ -62,7 +62,7 @@ module CircleCI
         it "runs a #{task_class}" do
           expect(task_class).to receive(:new).and_return(task)
           expect(task).to receive(:run)
-          Parallel.join
+          Parallel.sync
         end
       end
 
@@ -108,6 +108,13 @@ module CircleCI
 
           include_examples 'runs a task', Parallel::Task::Slave
         end
+      end
+    end
+
+    describe '.join' do
+      it 'is a deprecated API of .sync' do
+        expect(Parallel).to receive(:sync)
+        Parallel.join
       end
     end
   end

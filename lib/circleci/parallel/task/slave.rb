@@ -8,7 +8,7 @@ module CircleCI
         def run
           create_node_data_dir
           configuration.before_sync_hook.call(node.data_dir)
-          mark_as_joining
+          mark_as_syncing
           wait_for_master_node_to_download
           configuration.after_sync_hook.call(node.data_dir)
           done

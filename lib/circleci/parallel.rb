@@ -26,7 +26,7 @@ module CircleCI
   #     end
   #   end
   #
-  #   CircleCI::Parallel.join
+  #   CircleCI::Parallel.sync
   #
   #   p merged_data
   module Parallel
@@ -39,7 +39,7 @@ module CircleCI
     BASE_DATA_DIR = File.join(WORK_DIR, 'data')
 
     # @api private
-    JOIN_MARKER_FILE = File.join(WORK_DIR, 'JOINING')
+    SYNC_MARKER_FILE = File.join(WORK_DIR, 'SYNCING')
 
     # @api private
     DOWNLOAD_MARKER_FILE = File.join(WORK_DIR, 'DOWNLOADED')
@@ -95,12 +95,12 @@ module CircleCI
     # @see .current_build
     def_delegator :environment, :current_node
 
-    # @!method join
+    # @!method sync
     #
     # @!scope class
     #
-    # Join all nodes in the same build and gather all node data into the master node.
-    # Invoking this method blocks until the join and data downloads are complete.
+    # Sync all nodes in the same build and gather all node data into the master node.
+    # Invoking this method blocks until the sync and data downloads are complete.
     #
     # @raise [RuntimeError] when `CIRCLECI` environment variable is not set
     #
@@ -110,7 +110,7 @@ module CircleCI
     # @see CircleCI::Parallel::MasterNodeConfiguration#after_sync
     # @see CircleCI::Parallel::SlaveNodeConfiguration#before_sync
     # @see CircleCI::Parallel::SlaveNodeConfiguration#after_sync
-    def_delegator :environment, :join
+    def_delegator :environment, :sync
 
     # @api private
     # @!method puts
@@ -172,6 +172,11 @@ module CircleCI
       def reset!
         environment.clean
         @environment = nil
+      end
+
+      # @deprecated Use `.sync` instead.
+      def join
+        sync
       end
 
       private

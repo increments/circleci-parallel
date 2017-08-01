@@ -22,9 +22,9 @@ module CircleCI
           FileUtils.makedirs(node.data_dir)
         end
 
-        def mark_as_joining
+        def mark_as_syncing
           Parallel.puts('Syncing CircleCI nodes...')
-          File.write(JOIN_MARKER_FILE, '')
+          File.write(SYNC_MARKER_FILE, '')
         end
 
         def done

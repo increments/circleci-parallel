@@ -8,7 +8,7 @@ module CircleCI
         def run # rubocop:disable Metrics/AbcSize
           create_node_data_dir
           configuration.before_sync_hook.call(node.data_dir)
-          mark_as_joining
+          mark_as_syncing
           configuration.before_download_hook.call(BASE_DATA_DIR)
           download_from_slave_nodes
           configuration.after_download_hook.call(BASE_DATA_DIR)
@@ -34,7 +34,7 @@ module CircleCI
 
         Downloader = Struct.new(:node) do
           def ready_for_download?
-            Kernel.system('ssh', node.ssh_host, 'test', '-f', JOIN_MARKER_FILE)
+            Kernel.system('ssh', node.ssh_host, 'test', '-f', SYNC_MARKER_FILE)
           end
 
           def download

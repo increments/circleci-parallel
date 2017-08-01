@@ -12,6 +12,7 @@
     * `config.on_each_slave_node.before_sync`
     * `config.on_each_slave_node.after_sync`
 * Deprecate `#before_join`, `#after_join`, and `#after_download` in `Configuration`.
+* Add `Parallel.sync` and deprecate `Parallel.join`.
 
 ## v0.4.1
 

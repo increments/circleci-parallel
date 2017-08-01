@@ -16,9 +16,9 @@ module CircleCI::Parallel
       Configuration.new.master_node_configuration
     end
 
-    it 'creates join marker file' do
+    it 'creates sync marker file' do
       expect { task.run }
-        .to change { File.exist?('/tmp/circleci-parallel/JOINING') }.from(false).to(true)
+        .to change { File.exist?('/tmp/circleci-parallel/SYNCING') }.from(false).to(true)
     end
 
     it 'creates download marker file in the local' do

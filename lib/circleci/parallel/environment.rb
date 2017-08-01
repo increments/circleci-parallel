@@ -27,7 +27,7 @@ module CircleCI
         @current_node ||= Node.new(current_build, ENV['CIRCLE_NODE_INDEX'].to_i)
       end
 
-      def join
+      def sync
         validate!
         task.run
       end

@@ -21,26 +21,26 @@ module CircleCI::Parallel
       allow(Kernel).to receive(:system).and_return(true)
     end
 
-    it 'creates join marker file' do
+    it 'creates sync marker file' do
       expect { task.run }
-        .to change { File.exist?('/tmp/circleci-parallel/JOINING') }.from(false).to(true)
+        .to change { File.exist?('/tmp/circleci-parallel/SYNCING') }.from(false).to(true)
     end
 
     it 'downloads data from slave nodes when they are ready for download' do
       expect(Kernel).to receive(:system)
-        .with('ssh', 'node1', 'test', '-f', '/tmp/circleci-parallel/JOINING')
+        .with('ssh', 'node1', 'test', '-f', '/tmp/circleci-parallel/SYNCING')
         .and_return(false).ordered
 
       expect(Kernel).to receive(:system)
-        .with('ssh', 'node2', 'test', '-f', '/tmp/circleci-parallel/JOINING')
+        .with('ssh', 'node2', 'test', '-f', '/tmp/circleci-parallel/SYNCING')
         .and_return(false).ordered
 
       expect(Kernel).to receive(:system)
-        .with('ssh', 'node1', 'test', '-f', '/tmp/circleci-parallel/JOINING')
+        .with('ssh', 'node1', 'test', '-f', '/tmp/circleci-parallel/SYNCING')
         .and_return(false).ordered
 
       expect(Kernel).to receive(:system)
-        .with('ssh', 'node2', 'test', '-f', '/tmp/circleci-parallel/JOINING')
+        .with('ssh', 'node2', 'test', '-f', '/tmp/circleci-parallel/SYNCING')
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)
@@ -52,7 +52,7 @@ module CircleCI::Parallel
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)
-        .with('ssh', 'node1', 'test', '-f', '/tmp/circleci-parallel/JOINING')
+        .with('ssh', 'node1', 'test', '-f', '/tmp/circleci-parallel/SYNCING')
         .and_return(true).ordered
 
       expect(Kernel).to receive(:system)

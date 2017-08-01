@@ -21,10 +21,10 @@ module CircleCI::Parallel
       allow(Kernel).to receive(:system).and_return(true)
     end
 
-    it 'creates join marker file' do
+    it 'creates sync marker file' do
       allow(task).to receive(:downloaded?).and_return(true)
       expect { task.run }
-        .to change { File.exist?('/tmp/circleci-parallel/JOINING') }.from(false).to(true)
+        .to change { File.exist?('/tmp/circleci-parallel/SYNCING') }.from(false).to(true)
     end
 
     it 'waits for master node to download' do
