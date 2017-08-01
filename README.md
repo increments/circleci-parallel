@@ -47,10 +47,10 @@ test:
 require 'circleci/parallel'
 
 CircleCI::Parallel.configure do |config|
-  # This hook will be invoked on all the nodes.
+  # This hook will be invoked on every node.
   # The current working directory in this hook is set to the local data directory
   # where node specific data should be saved in.
-  config.before_join do
+  config.on_every_node.before_sync do
     data = do_something
     json = JSON.generate(data)
     File.write('data.json', json)
@@ -68,7 +68,7 @@ CircleCI::Parallel.configure do |config|
   #     │   └── node_specific_data_you_saved_on_node1.txt
   #     └── node2
   #         └── node_specific_data_you_saved_on_node2.txt
-  config.after_download do
+  config.on_master_node.after_download do
     merged_data = {}
 
     Dir.glob('*/data.json') do |path|

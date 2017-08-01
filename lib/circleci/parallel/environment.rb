@@ -53,15 +53,17 @@ module CircleCI
       end
 
       def task
-        @task ||= task_class.new(current_node, configuration)
+        @task ||= current_node.master? ? master_task : slave_task
       end
 
-      def task_class
-        if configuration.mock_mode
-          current_node.master? ? Task::MockMaster : Task::MockSlave
-        else
-          current_node.master? ? Task::Master : Task::Slave
-        end
+      def master_task
+        klass = configuration.mock_mode ? Task::MockMaster : Task::Master
+        klass.new(current_node, configuration.master_node_configuration)
+      end
+
+      def slave_task
+        klass = configuration.mock_mode ? Task::MockSlave : Task::Slave
+        klass.new(current_node, configuration.slave_node_configuration)
       end
     end
   end

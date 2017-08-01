@@ -5,13 +5,14 @@ module CircleCI
     module Task
       # @api private
       class Master < Base
-        def run
+        def run # rubocop:disable Metrics/AbcSize
           create_node_data_dir
-          configuration.before_join_hook.call(node.data_dir)
+          configuration.before_sync_hook.call(node.data_dir)
           mark_as_joining
+          configuration.before_download_hook.call(BASE_DATA_DIR)
           download_from_slave_nodes
           configuration.after_download_hook.call(BASE_DATA_DIR)
-          configuration.after_join_hook.call(node.data_dir)
+          configuration.after_sync_hook.call(node.data_dir)
           done
         end
 

@@ -2,6 +2,17 @@
 
 ## Development
 
+* Add improved hook configuration APIs.
+    * `config.on_every_node.before_sync`
+    * `config.on_every_node.after_sync`
+    * `config.on_master_node.before_sync`
+    * `config.on_master_node.after_sync`
+    * `config.on_master_node.before_download`
+    * `config.on_master_node.after_download`
+    * `config.on_each_slave_node.before_sync`
+    * `config.on_each_slave_node.after_sync`
+* Deprecate `#before_join`, `#after_join`, and `#after_download` in `Configuration`.
+
 ## v0.4.1
 
 * Tweak UI messsages.

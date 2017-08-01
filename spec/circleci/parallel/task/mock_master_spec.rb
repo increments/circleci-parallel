@@ -13,7 +13,7 @@ module CircleCI::Parallel
     end
 
     let(:configuration) do
-      Configuration.new
+      Configuration.new.master_node_configuration
     end
 
     it 'creates join marker file' do

@@ -1,3 +1,6 @@
+require 'circleci/parallel/configuration/configuration_collection_proxy'
+require 'circleci/parallel/configuration/master_node_configuration'
+require 'circleci/parallel/configuration/slave_node_configuration'
 require 'circleci/parallel/hook'
 
 module CircleCI
@@ -9,83 +12,50 @@ module CircleCI
       # @return [Boolean] whether mock mode is enabled (default: false)
       attr_accessor :mock_mode
 
-      # @api private
-      attr_reader :before_join_hook, :after_join_hook, :after_download_hook
-
       def initialize
         @silent = false
         @mock_mode = false
-        @before_join_hook = @after_join_hook = @after_download_hook = Hook.new
       end
 
-      # Defines a callback that will be invoked on all nodes before joining nodes.
-      #
-      # @param chdir [Boolean] whether the callback should be invoked while chaging the current
-      #   working directory to the local data directory.
-      #
-      # @yieldparam local_data_dir [String] the path to the local data directory
-      #
-      # @return [void]
-      #
-      # @example
-      #   CircleCI::Parallel.configure do |config|
-      #     config.before_join do
-      #       File.write('data.json', JSON.generate(some_data))
-      #     end
-      #   end
-      #
-      # @see CircleCI::Parallel.local_data_dir
+      # @return [ConfigurationCollectionProxy]
+      def on_every_node
+        @every_node_configuration ||=
+          ConfigurationCollectionProxy.new(master_node_configuration, slave_node_configuration)
+      end
+
+      # @return [MasterNodeConfiguration]
+      def on_master_node
+        master_node_configuration
+      end
+
+      # @return [SlaveNodeConfiguration]
+      def on_each_slave_node
+        slave_node_configuration
+      end
+
+      # @deprecated Use `on_every_node.before_sync` instead.
       def before_join(chdir: true, &block)
-        @before_join_hook = Hook.new(block, chdir)
+        on_every_node.before_sync(chdir: chdir, &block)
       end
 
-      # Defines a callback that will be invoked on all nodes after joining nodes.
-      #
-      # @param chdir [Boolean] whether the callback should be invoked while chaging the current
-      #   working directory to the local data directory.
-      #
-      # @yieldparam local_data_dir [String] the path to the local data directory
-      #
-      # @return [void]
-      #
-      # @example
-      #   CircleCI::Parallel.configure do |config|
-      #     config.after_join do
-      #       clean_some_intermediate_data
-      #     end
-      #   end
-      #
-      # @see CircleCI::Parallel.local_data_dir
-      def after_join(chdir: true, &block)
-        @after_join_hook = Hook.new(block, chdir)
-      end
-
-      # Defines a callback that will be invoked only on the master node after downloading all data
-      # from slave nodes.
-      #
-      # @param chdir [Boolean] whether the callback should be invoked while chaging the current
-      #   working directory to the download data directory.
-      #
-      # @yieldparam download_data_dir [String] the path to the download data directory
-      #
-      # @return [void]
-      #
-      # @example
-      #   CircleCI::Parallel.configure do |config|
-      #     config.after_download do
-      #       merged_data = Dir['*/data.json'].each_with_object({}) do |path, merged_data|
-      #         data = JSON.parse(File.read(path))
-      #         node_name = File.dirname(path)
-      #         merged_data[node_name] = data
-      #       end
-      #
-      #       File.write('merged_data.json', JSON.generate(merged_data))
-      #     end
-      #   end
-      #
-      # @see CircleCI::Parallel.download_data_dir
+      # @deprecated Use `on_master_node.after_download` instead.
       def after_download(chdir: true, &block)
-        @after_download_hook = Hook.new(block, chdir)
+        on_master_node.after_download(chdir: chdir, &block)
+      end
+
+      # @deprecated Use `on_every_node.after_sync` instead.
+      def after_join(chdir: true, &block)
+        on_every_node.after_sync(chdir: chdir, &block)
+      end
+
+      # @api private
+      def master_node_configuration
+        @master_node_configuration ||= MasterNodeConfiguration.new
+      end
+
+      # @api private
+      def slave_node_configuration
+        @slave_node_configuration ||= SlaveNodeConfiguration.new
       end
     end
   end

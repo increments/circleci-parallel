@@ -7,10 +7,10 @@ module CircleCI
       class Slave < Base
         def run
           create_node_data_dir
-          configuration.before_join_hook.call(node.data_dir)
+          configuration.before_sync_hook.call(node.data_dir)
           mark_as_joining
           wait_for_master_node_to_download
-          configuration.after_join_hook.call(node.data_dir)
+          configuration.after_sync_hook.call(node.data_dir)
           done
         end
 

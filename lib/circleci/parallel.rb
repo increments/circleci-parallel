@@ -10,13 +10,13 @@ module CircleCI
   #   merged_data = {}
   #
   #   CircleCI::Parallel.configure do |config|
-  #     config.before_join do
+  #     config.on_every_node.before_sync do
   #       data = do_something
   #       json = JSON.generate(data)
   #       File.write('data.json', json)
   #     end
   #
-  #     config.after_download do
+  #     config.on_master_node.after_download do
   #       Dir.glob('*/data.json') do |path|
   #         json = File.read(path)
   #         data = JSON.parse(json)
@@ -104,9 +104,12 @@ module CircleCI
     #
     # @raise [RuntimeError] when `CIRCLECI` environment variable is not set
     #
-    # @see CircleCI::Parallel::Configuration#before_join
-    # @see CircleCI::Parallel::Configuration#after_join
-    # @see CircleCI::Parallel::Configuration#after_download
+    # @see CircleCI::Parallel::MasterNodeConfiguration#before_sync
+    # @see CircleCI::Parallel::MasterNodeConfiguration#before_download
+    # @see CircleCI::Parallel::MasterNodeConfiguration#after_download
+    # @see CircleCI::Parallel::MasterNodeConfiguration#after_sync
+    # @see CircleCI::Parallel::SlaveNodeConfiguration#before_sync
+    # @see CircleCI::Parallel::SlaveNodeConfiguration#after_sync
     def_delegator :environment, :join
 
     # @api private
@@ -123,8 +126,10 @@ module CircleCI
       #   path = File.join(CircleCI::Parallel.local_data_dir, 'data.json')
       #   File.write(path, JSON.generate(some_data))
       #
-      # @see CircleCI::Parallel::Configuration#before_join
-      # @see CircleCI::Parallel::Configuration#after_join
+      # @see CircleCI::Parallel::MasterNodeConfiguration#before_sync
+      # @see CircleCI::Parallel::MasterNodeConfiguration#after_sync
+      # @see CircleCI::Parallel::SlaveNodeConfiguration#before_sync
+      # @see CircleCI::Parallel::SlaveNodeConfiguration#after_sync
       def local_data_dir
         current_node.data_dir.tap do |path|
           FileUtils.makedirs(path) unless Dir.exist?(path)
@@ -155,7 +160,8 @@ module CircleCI
       #     end
       #   end
       #
-      # @see CircleCI::Parallel::Configuration#after_download
+      # @see CircleCI::Parallel::MasterNodeConfiguration#before_download
+      # @see CircleCI::Parallel::MasterNodeConfiguration#after_download
       def download_data_dir
         BASE_DATA_DIR.tap do |path|
           FileUtils.makedirs(path) unless Dir.exist?(path)
