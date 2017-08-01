@@ -11,6 +11,6 @@ RuboCop::RakeTask.new
 
 YARD::Rake::YardocTask.new
 
-task default: [:spec, :rubocop]
+task default: %i[spec rubocop]
 
-task ci: [:spec, :rubocop]
+task ci: %i[spec rubocop]

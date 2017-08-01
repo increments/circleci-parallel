@@ -1,8 +1,20 @@
 AllCops:
   TargetRubyVersion: 2.1
 
+Layout/MultilineMethodCallIndentation:
+  Exclude:
+    - spec/**/*
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+  
 Metrics/AbcSize:
   Max: 17
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
 
 Metrics/LineLength:
   Max: 120
