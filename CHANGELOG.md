@@ -2,6 +2,8 @@
 
 ## Development
 
+## v0.5.0
+
 * Add improved hook configuration APIs.
     * `config.on_every_node.before_sync`
     * `config.on_every_node.after_sync`
